@@ -36,16 +36,14 @@ class Particle : public sf::RectangleShape {
 		}
 		
 		Vector2 CalcNetForce () {
-			Vector2 iDrag (Drag, Drag);
-			Vector2 iFrictional (Frictional);
+			Vector2 iDamping = Frictional + Drag;
 			Vector2 iGravity (0.f, Gravity - Drag);
-			
 			Vector2 iDirection = AppForce.direction ();
+            
+            iDamping = iDamping.compareMore (AppForce) & (~iDirection);
+			AppForce += iDamping;
 
-			iDrag       &= ~iDirection;
-			iFrictional &= ~iDirection;
-
-			return (AppForce + iFrictional + iDrag + iGravity);
+			return (AppForce + iDamping + iGravity);
 		}
 		
 		void Integration (float dt) {
@@ -66,10 +64,6 @@ class Particle : public sf::RectangleShape {
 		}
 };
 
-class Firework : public Particle {
-	
-};
-
 int main () {
 	Particle mat0 (1.f);
 	Particle mat1 (3.f);
@@ -85,7 +79,7 @@ int main () {
 	mat1.Position.y = 10.f;
 	mat1.setPosition ();
 
-    mat0.Drag = 1.f;
+    mat0.Drag = 1.3f;
     mat1.Drag = 4.f;
     
     mat0.setSize (sf::Vector2f (4.f, 4.f));
@@ -94,8 +88,9 @@ int main () {
     mat0.setFillColor (sf::Color::Red);
     mat1.setFillColor (sf::Color::Green);
 	
-	mat0.ApplyForce (Vector2 (1.f, -2.f));
-	mat1.ApplyForce (Vector2 (5.f, 0.f));
+	mat0.ApplyForce (Vector2 (10.f, -20.f));
+	mat1.ApplyForce (Vector2 (250.f, 0.f));
+
 	
 	sf::RenderWindow window (sf::VideoMode (600, 600), "Material");
 	
@@ -128,6 +123,6 @@ int main () {
 		window.draw (mat1);
 		window.display ();
 	}
-
+	
 	return 0;
 }

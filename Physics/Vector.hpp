@@ -35,6 +35,20 @@ class Vector2 {
 			return Vector2 (dx, dy);
 		}
 		
+		Vector2 compareLess (Vector2 op) {
+			float dx = (this->x < op.x) ? 0.f : this->x;
+			float dy = (this->y < op.y) ? 0.f : this->y;
+			
+			return Vector2 (dx, dy);
+		}
+		
+		Vector2 compareMore (Vector2 op) {
+			float dx = (this->x > op.x) ? 0.f : this->x;
+			float dy = (this->y > op.y) ? 0.f : this->y;
+			
+			return Vector2 (dx, dy);
+		}
+		
 		// Modification operators
 		
 		void operator() (float nx, float ny) {
