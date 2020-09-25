@@ -1,3 +1,6 @@
+#ifndef _ENGINE2MD_VECTOR2_
+#define _ENGINE2MD_VECTOR2_
+
 #include <cmath>
 
 class Vector2 {
@@ -35,18 +38,8 @@ class Vector2 {
 			return Vector2 (dx, dy);
 		}
 		
-		Vector2 compareLess (Vector2 op) {
-			float dx = (this->x < op.x) ? 0.f : this->x;
-			float dy = (this->y < op.y) ? 0.f : this->y;
-			
-			return Vector2 (dx, dy);
-		}
-		
-		Vector2 compareMore (Vector2 op) {
-			float dx = (this->x > op.x) ? 0.f : this->x;
-			float dy = (this->y > op.y) ? 0.f : this->y;
-			
-			return Vector2 (dx, dy);
+		Vector2 abs () {
+			Vector2 (fabs (this->x), fabs (this->y));
 		}
 		
 		// Modification operators
@@ -148,3 +141,5 @@ class Vector2 {
 			return Vector2 (this->x - op, this->y - op);
 		}
 };
+
+#endif
